@@ -9,7 +9,11 @@ class ModelWrapper:
         # TODO: Create OpenAI client that points to OpenRouter
         # Hint: You need to set a custom base_url
         # OpenRouter URL: "https://openrouter.ai/api/v1"
-        
+        self.client = OpenAI(
+            base_url="https://openrouter.ai/api/v1",
+            api_key="OPENROUTER_API_KEY",
+        )
+
         # TODO: Define which models you want to use
         # Here are some options:
         # "openai/gpt-4o-mini" - OpenAI (cheap)
@@ -17,7 +21,7 @@ class ModelWrapper:
         # "google/gemini-flash-1.5" - Google (cheap)
         # "qwen/qwen-2-7b-instruct" - Free!
         # "meta-llama/llama-3-8b-instruct" - Meta
-        
+        self.model="qwen/qwen-2-7b-instruct"
         pass
     
     def query_model(self, prompt, system_prompt="You are a helpful assistant", model="gpt-4"):
@@ -32,6 +36,20 @@ class ModelWrapper:
         """
         # TODO: Implement the API call
         # Hint: Use self.client.chat.completions.create()
+        completion = self.client.chat.completions.create(
+            model=model,
+            messages = [
+                {
+                    "role": "system",
+                    "content": system_prompt
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
+        )
+
         pass
     
     def get_available_models(self):
