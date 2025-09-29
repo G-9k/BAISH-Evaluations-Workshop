@@ -21,7 +21,7 @@ class ModelWrapper:
         # "google/gemini-flash-1.5" - Google (cheap)
         # "qwen/qwen-2-7b-instruct" - Free!
         # "meta-llama/llama-3-8b-instruct" - Meta
-        self.model="qwen/qwen-2-7b-instruct"
+        self.model="mistralai/mistral-7b-instruct:free"
     
     def query_model(self, prompt, system_prompt="You are a helpful assistant", model="gpt-4"):
         """
@@ -53,7 +53,7 @@ class ModelWrapper:
         """Quick test to see if your setup works"""
         # TODO: Try a simple API call and return True/False
         try:
-            self.query_model(prompt="Say true")
+            self.query_model(prompt="Say true", model="mistralai/mistral-7b-instruct:free")
             return True
         except Exception as e:
             print(f"Connection failed: {e}")

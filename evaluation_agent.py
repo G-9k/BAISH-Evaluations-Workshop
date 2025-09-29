@@ -21,7 +21,7 @@ from quirky_prompts import QUIRKS, BASELINE_PROMPT
 class SimpleEvaluationAgent:
     def __init__(self):
         # TODO: Initialize your model wrapper
-        pass
+        wrapper = ModelWrapper()
         
     def generate_test_prompts(self, quirk_name, num_prompts=5):
         """
