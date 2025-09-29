@@ -14,7 +14,15 @@ def test_model_wrapper():
     """Test that basic API calls work"""
     print("Testing model wrapper...")
     # TODO: Create wrapper and test basic calls
-    pass
+    from models import ModelWrapper
+    wrapper = ModelWrapper()
+
+    print("Testing connection...")
+    if wrapper.test_connection():
+        print("connection succesfully established")
+    else:
+        print("Connection failed")
+
 
 def test_quirky_prompts():
     """Test that your quirks actually work"""  

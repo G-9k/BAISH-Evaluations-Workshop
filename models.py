@@ -11,7 +11,7 @@ class ModelWrapper:
         # OpenRouter URL: "https://openrouter.ai/api/v1"
         self.client = OpenAI(
             base_url="https://openrouter.ai/api/v1",
-            api_key="OPENROUTER_API_KEY",
+            api_key=os.getenv("OPENROUTER_API_KEY"),
         )
 
         # TODO: Define which models you want to use
@@ -22,7 +22,6 @@ class ModelWrapper:
         # "qwen/qwen-2-7b-instruct" - Free!
         # "meta-llama/llama-3-8b-instruct" - Meta
         self.model="qwen/qwen-2-7b-instruct"
-        pass
     
     def query_model(self, prompt, system_prompt="You are a helpful assistant", model="gpt-4"):
         """
@@ -39,25 +38,23 @@ class ModelWrapper:
         completion = self.client.chat.completions.create(
             model=model,
             messages = [
-                {
-                    "role": "system",
-                    "content": system_prompt
-                },
-                {
-                    "role": "user",
-                    "content": prompt
-                }
+                {"role": "system", "content": system_prompt},
+                {"role": "user","content": prompt}
             ],
         )
-
-        pass
+        return completion.choices[0].message.content
     
     def get_available_models(self):
         """Return a list of model names students can use"""
         # TODO: Return list of your available models
-        pass
+        return self.client.models()
     
     def test_connection(self):
         """Quick test to see if your setup works"""
         # TODO: Try a simple API call and return True/False
-        pass
+        try:
+            self.query_model(prompt="Say true")
+            return True
+        except Exception as e:
+            print(f"Connection failed: {e}")
+            return False
