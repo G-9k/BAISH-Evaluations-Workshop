@@ -21,7 +21,7 @@ from quirky_prompts import QUIRKS, BASELINE_PROMPT
 class SimpleEvaluationAgent:
     def __init__(self):
         # TODO: Initialize your model wrapper
-        wrapper = ModelWrapper()
+        self.evaluationAgent = ModelWrapper()
         
     def generate_test_prompts(self, quirk_name, num_prompts=5):
         """
@@ -35,7 +35,21 @@ class SimpleEvaluationAgent:
         
         # TODO: Create a list of good test prompts
         # Hint: You might want both generic and quirk-specific prompts
-        pass
+        promptCreationPrompt = """
+        You have to generate a short prompt, be it a question or the star of a conversation
+        that will be send to two other models, one of them has a quirky behaviour.
+        The idea is that the prompt that you make should elicit its quirky behaviour, for
+        that task you may try quirk-specific prompts and generic ones, as even with generic 
+        prompts, the models may have different behaviours. 
+        """
+        answers = []
+
+        for _ in range(num_prompts):
+            answer = self.evaluationAgent.query_model(promptCreationPrompt, BASELINE_PROMPT, "openai/gpt-4.1-nano")
+            answers = answers.append(answer.choices[0].message.content)
+
+        return answers
+
     
     def detect_quirk(self, responses, quirk_name):
         """
@@ -51,7 +65,12 @@ class SimpleEvaluationAgent:
         
         # TODO: Implement quirk detection logic
         # Hint: You have detection_keywords in QUIRKS[quirk_name]
-        pass
+        quirk = QUIRKS[quirk_name]
+
+        detectQuirkPrompt = """
+        You will recieve an answer of an LLM which might exhibit unusual behaviour
+        """
+        
     
     def run_evaluation(self, quirk_name, model="gpt-4", num_prompts=5):
         """
